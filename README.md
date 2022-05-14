@@ -16,6 +16,9 @@ vfile
 ```
 curl -F "uploads=@my-file.txt" http://your-server-ip:8080/upload
 ```
+or by ui
+
+http://your-server-ip:8080/uploadUi
 
 ### Download
 ```
