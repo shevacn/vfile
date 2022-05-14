@@ -7,6 +7,12 @@ import (
 	"os"
 )
 
+var uploadUiHtml string
+
+func uploadUi(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, uploadUiHtml)
+}
+
 func upload(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(32 << 20)
 
@@ -28,7 +34,10 @@ func upload(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	b, _ := os.ReadFile("uploadUi.html")
+	uploadUiHtml = string(b)
 	http.HandleFunc("/upload", upload)
+	http.HandleFunc("/uploadUi", uploadUi)
 	http.Handle("/ls/", http.StripPrefix("/ls/", http.FileServer(http.Dir("/"))))
 
 	err := http.ListenAndServe(":8080", nil)
