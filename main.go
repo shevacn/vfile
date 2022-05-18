@@ -677,7 +677,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer file.Close()
-	f, err := os.OpenFile("/tmp/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile("/tmp/"+handler.Filename, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		fmt.Println(err)
 		return
