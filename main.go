@@ -1,10 +1,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 // var uploadUiHtml string
@@ -688,13 +690,13 @@ func upload(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// b, _ := os.ReadFile("uploadUi.html")
-	// uploadUiHtml = string(b)
+	port := *flag.Int("p", 8080, "The port of the server")
+
 	http.HandleFunc("/upload", upload)
 	http.HandleFunc("/uploadUi", uploadUi)
 	http.Handle("/ls/", http.StripPrefix("/ls/", http.FileServer(http.Dir("/"))))
 
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
 
 	if err != nil {
 		fmt.Println(err)
