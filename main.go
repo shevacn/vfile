@@ -690,13 +690,15 @@ func upload(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := *flag.Int("p", 8080, "The port of the server")
+	port := flag.Int("p", 8080, "The port of the server")
+	flag.Parse()
 
 	http.HandleFunc("/upload", upload)
 	http.HandleFunc("/uploadUi", uploadUi)
 	http.Handle("/ls/", http.StripPrefix("/ls/", http.FileServer(http.Dir("/"))))
 
-	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
+	fmt.Printf("Running server on port %d\n", *port)
+	err := http.ListenAndServe(":"+strconv.Itoa(*port), nil)
 
 	if err != nil {
 		fmt.Println(err)
